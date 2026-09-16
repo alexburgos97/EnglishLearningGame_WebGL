@@ -13,6 +13,10 @@ public class SparkyDialog : MonoBehaviour
     [SerializeField] private AudioClip[] dialogAudios;
     private AudioSource audioSource;
 
+    [Header("Icono del pasaporte (paso 'Take this Badge Passport')")]
+    [SerializeField] private Image passportImage;
+    private const int passportStepIndex = 3;
+
     private int currentStep = 0;
 
     private string[] dialogSteps = new string[]
@@ -28,6 +32,9 @@ public class SparkyDialog : MonoBehaviour
     private void Start()
     {
         dialogPanel.SetActive(false);
+
+        if (passportImage != null)
+            passportImage.gameObject.SetActive(false);
 
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -59,6 +66,9 @@ public class SparkyDialog : MonoBehaviour
     private void UpdateDialog()
     {
         dialogText.text = dialogSteps[currentStep];
+
+        if (passportImage != null)
+            passportImage.gameObject.SetActive(currentStep == passportStepIndex);
 
         // Reproducir audio del paso actual
         if (dialogAudios != null && 
